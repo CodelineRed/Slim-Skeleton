@@ -16,14 +16,14 @@ services:
             MYSQL_USER: dockeruser
             MYSQL_PASSWORD: dockerpw
         ports:
-            - 9906:3306
+            - 7706:3306
         volumes:
             - db_data:/var/lib/mysql
             - ./sql/db-dump.sql:/docker-entrypoint-initdb.d/db-dump.sql
-    
-    # http://localhost:8080
+
+    # http://localhost:7705
     webserver:
-        #image: php:7-alpine
+        #image: php:8.0-alpine
         container_name: slim-webserver
         restart: always
         working_dir: /var/www
@@ -40,17 +40,24 @@ services:
             context: ./
             dockerfile: Dockerfile
         ports:
-            - 8080:8080
+            - 7705:8080
         volumes:
             - .:/var/www
             - logs:/var/www/logs
         depends_on:
             - db
-    
-    # http://localhost:9999
+
+    # http://localhost:7707
     adminer:
         image: adminer
         container_name: slim-adminer
         restart: always
         ports:
-            - 9999:8080
+            - 7707:8080
+
+    # docker-compose run composer require user/pack
+    composer:
+        image: composer
+        volumes:
+            - .:/var/www
+        working_dir: /var/www

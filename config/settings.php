@@ -12,7 +12,7 @@ return [
         'renderer' => [
             'debug' => FALSE,
             'cache' => FALSE, // FALSE or path to cache folder "__DIR__ . '/../cache/'"
-            'template_path' => __DIR__ . '/../templates/',
+            'template_path' => __DIR__ . '/../template/',
         ],
         
         // Google recaptcha

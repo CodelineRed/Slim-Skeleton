@@ -1,15 +1,16 @@
 <?php
 namespace App\Entity;
 
+use App\MappedSuperclass\Base;
 use App\Utility\GeneralUtility;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="user")
  */
-class User extends \App\MappedSuperclass\Base {
+class User extends Base {
     
     /**
      * @ORM\Column(type="string", unique=true)
@@ -25,16 +26,9 @@ class User extends \App\MappedSuperclass\Base {
     
     /**
      * @ORM\ManyToOne(targetEntity="Role", inversedBy="users")
-     * @ORM\JoinColumn(name="role_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="role_id", referencedColumnName="id", nullable=false)
      */
     private $role;
-    
-    /**
-     * One User has many RecoveryCodes.
-     * 
-     * @ORM\OneToMany(targetEntity="RecoveryCode", mappedBy="user", cascade={"persist", "remove"})
-     */
-    private $recoveryCodes;
     
     /**
      * 1 if 2FA is enabled
@@ -49,6 +43,13 @@ class User extends \App\MappedSuperclass\Base {
      * @ORM\Column(type="string", name="two_factor_secret", options={"comment": "Secret for 2FA validation and authenticator app"})
      */
     private $twoFactorSecret = '';
+    
+    /**
+     * One User has many RecoveryCodes.
+     * 
+     * @ORM\OneToMany(targetEntity="RecoveryCode", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $recoveryCodes;
 
     public function __construct() {
         $this->recoveryCodes = new ArrayCollection();
@@ -67,6 +68,7 @@ class User extends \App\MappedSuperclass\Base {
      * Set $name
      * 
      * @param string $name
+     * @return User
      */
     public function setName($name) {
         $this->name = strtolower($name);
@@ -87,6 +89,7 @@ class User extends \App\MappedSuperclass\Base {
      * Set $pass
      * 
      * @param string $pass
+     * @return User
      */
     public function setPass($pass) {
         $this->pass = GeneralUtility::encryptPassword($pass);
@@ -107,20 +110,24 @@ class User extends \App\MappedSuperclass\Base {
      * Set $role
      * 
      * @param Role $role
+     * @return User
      */
     public function setRole($role) {
         $this->role = $role;
         
         return $this;
     }
-
+    
     /**
-     * Get $recoveryCodes
+     * Set $twoFactor
      * 
-     * @return ArrayCollection
+     * @param boolean $twoFactor
+     * @return User
      */
-    public function getRecoveryCodes() {
-        return $this->recoveryCodes;
+    public function setTwoFactor($twoFactor) {
+        $this->twoFactor = $twoFactor;
+        
+        return $this;
     }
     
     /**
@@ -130,17 +137,6 @@ class User extends \App\MappedSuperclass\Base {
      */
     public function hasTwoFactor() {
         return $this->twoFactor;
-    }
-    
-    /**
-     * Set $twoFactor
-     * 
-     * @param boolean $twoFactor
-     */
-    public function setTwoFactor($twoFactor) {
-        $this->twoFactor = $twoFactor;
-        
-        return $this;
     }
 
     /**
@@ -156,10 +152,20 @@ class User extends \App\MappedSuperclass\Base {
      * Set $twoFactorSecret
      * 
      * @param string $twoFactorSecret
+     * @return User
      */
     public function setTwoFactorSecret($twoFactorSecret) {
         $this->twoFactorSecret = $twoFactorSecret;
         
         return $this;
+    }
+
+    /**
+     * Get $recoveryCodes
+     * 
+     * @return ArrayCollection
+     */
+    public function getRecoveryCodes() {
+        return $this->recoveryCodes;
     }
 }
