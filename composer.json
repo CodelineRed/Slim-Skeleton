@@ -1,7 +1,7 @@
 {
     "name": "insanitymeetshh/slim-skeleton",
     "description": "Slim Skeleton - CodelineRed",
-    "version": "5.5.0-dev",
+    "version": "5.5.0",
     "keywords": ["microframework", "rest", "router", "psr7", "doctrine", "twig", "localisation", "acl", "login", "csrf", "2fa", "recaptcha", "docker"],
     "homepage": "http://slim3.codelinered.net",
     "license": "MIT",
