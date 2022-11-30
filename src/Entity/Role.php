@@ -1,14 +1,15 @@
 <?php
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use App\MappedSuperclass\Base;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="role")
  */
-class Role extends \App\MappedSuperclass\Base {
+class Role extends Base {
     
     /**
      * @ORM\Column(type="string", unique=true)
@@ -39,6 +40,7 @@ class Role extends \App\MappedSuperclass\Base {
      * Set $name
      * 
      * @param string $name
+     * @return Role
      */
     public function setName($name) {
         $this->name = strtolower($name);

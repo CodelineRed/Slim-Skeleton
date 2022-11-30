@@ -1,17 +1,18 @@
 <?php
 namespace App\Entity;
 
+use App\MappedSuperclass\Base;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="recovery_code")
  */
-class RecoveryCode extends \App\MappedSuperclass\Base {
+class RecoveryCode extends Base {
     
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
      * @ORM\Column(type="string")
      */
     protected $id;
@@ -29,6 +30,24 @@ class RecoveryCode extends \App\MappedSuperclass\Base {
      */
     private $code;
     
+    public function __construct() {
+        if (!isset($this->id)) {
+            $this->setIdWithRamsey();
+        }
+    }
+    
+    /**
+     * Set $id
+     * 
+     * @param string $id
+     * @return RecoveryCode
+     */
+    private function setId($id) {
+        $this->id = $id;
+        
+        return $this;
+    }
+    
     /**
      * Get $user
      * 
@@ -42,6 +61,7 @@ class RecoveryCode extends \App\MappedSuperclass\Base {
      * Set $user
      * 
      * @param User $user
+     * @return RecoveryCode
      */
     public function setUser($user) {
         $this->user = $user;
@@ -62,9 +82,21 @@ class RecoveryCode extends \App\MappedSuperclass\Base {
      * Set $code
      * 
      * @param string $code
+     * @return RecoveryCode
      */
     public function setCode($code) {
         $this->code = $code;
+        
+        return $this;
+    }
+    
+    /**
+     * Set $id with Ramsey/Uuid
+     * 
+     * @return RecoveryCode
+     */
+    private function setIdWithRamsey() {
+        $this->id = Uuid::uuid4();
         
         return $this;
     }

@@ -33,21 +33,22 @@ footer a {
 
 h1,
 h2 {
-    color: #2E97BF;
+    color: #FF2525;
     font-weight: 400;
 }
 
 a:visited {
-    color: #277e9e;
+    color: #ff6060;
 }
 
 a, a:focus, a:hover, a.current:focus, a.current:hover {
-    color: #2E97BF;
+    color: #FF2525;
     text-decoration: none;
 }
 
 a.current {
-    color: #3bbfef;
+    color: #FF2525;
+    font-weight: bold;
 }
 
 ul {

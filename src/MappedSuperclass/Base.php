@@ -62,6 +62,7 @@ class Base {
      * Set $deleted
      * 
      * @param boolean $deleted
+     * @return Base
      */
     public function setDeleted($deleted) {
         $this->deleted = $deleted;
@@ -82,6 +83,7 @@ class Base {
      * Set $hidden
      * 
      * @param boolean $hidden
+     * @return Base
      */
     public function setHidden($hidden) {
         $this->hidden = $hidden;
@@ -102,6 +104,7 @@ class Base {
      * Set $updatedAt
      * 
      * @param \DateTime $updatedAt
+     * @return Base
      */
     public function setUpdatedAt($updatedAt) {
         $this->updatedAt = $updatedAt;
@@ -122,6 +125,7 @@ class Base {
      * Set $createdAt
      * 
      * @param \DateTime $createdAt
+     * @return Base
      */
     public function setCreatedAt($createdAt) {
         $this->createdAt = $createdAt;

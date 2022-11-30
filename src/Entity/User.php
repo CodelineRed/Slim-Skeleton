@@ -1,15 +1,16 @@
 <?php
 namespace App\Entity;
 
+use App\MappedSuperclass\Base;
 use App\Utility\GeneralUtility;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="user")
  */
-class User extends \App\MappedSuperclass\Base {
+class User extends Base {
     
     /**
      * @ORM\Column(type="string", unique=true)
@@ -67,6 +68,7 @@ class User extends \App\MappedSuperclass\Base {
      * Set $name
      * 
      * @param string $name
+     * @return User
      */
     public function setName($name) {
         $this->name = strtolower($name);
@@ -87,6 +89,7 @@ class User extends \App\MappedSuperclass\Base {
      * Set $pass
      * 
      * @param string $pass
+     * @return User
      */
     public function setPass($pass) {
         $this->pass = GeneralUtility::encryptPassword($pass);
@@ -107,6 +110,7 @@ class User extends \App\MappedSuperclass\Base {
      * Set $role
      * 
      * @param Role $role
+     * @return User
      */
     public function setRole($role) {
         $this->role = $role;
@@ -118,6 +122,7 @@ class User extends \App\MappedSuperclass\Base {
      * Set $twoFactor
      * 
      * @param boolean $twoFactor
+     * @return User
      */
     public function setTwoFactor($twoFactor) {
         $this->twoFactor = $twoFactor;
@@ -147,6 +152,7 @@ class User extends \App\MappedSuperclass\Base {
      * Set $twoFactorSecret
      * 
      * @param string $twoFactorSecret
+     * @return User
      */
     public function setTwoFactorSecret($twoFactorSecret) {
         $this->twoFactorSecret = $twoFactorSecret;

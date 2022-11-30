@@ -13,8 +13,7 @@ class GeneralUtility {
      */
     static function encryptPassword($pass) {
         $options = [
-            'cost' => 11,
-            'salt' => random_bytes(22),
+            'cost' => 11
         ];
         return password_hash($pass, PASSWORD_BCRYPT, $options);
     }

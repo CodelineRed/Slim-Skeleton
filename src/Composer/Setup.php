@@ -13,7 +13,7 @@ class Setup {
      */
     public static function run(Event $event) {
         // if in docker environment
-        if (isset($_ENV['docker'])) {
+        if (isset($_ENV['docker']) || isset($_ENV['COMPOSER_HOME'])) {
             echo self::getColoredString("Skipped App\\Composer\\Setup in Docker environment.\n", 'green');
             return;
         }
