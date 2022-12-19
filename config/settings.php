@@ -10,11 +10,12 @@ return [
 
         // Renderer settings
         'renderer' => [
-            'debug' => FALSE,
-            'cache' => FALSE, // FALSE or path to cache folder "__DIR__ . '/../cache/'"
+            'debug' => false,
+            'cache' => false, // false or path to cache folder "__DIR__ . '/../cache/'"
+            'htmlcompress' => true,
             'template_path' => __DIR__ . '/../template/',
         ],
-        
+
         // Google recaptcha
         'recaptcha' => [
             'site'   => '',
@@ -23,22 +24,22 @@ return [
 
         // Google QR Code title
         '2fa_qrc_title' => null,
-        
+
         // pages for the public
         'active_pages' => [
-            'login'    => TRUE,
-            'register' => TRUE,
+            'login'    => true,
+            'register' => true,
         ],
-        
+
         // User validation
         'validation' => [
             'min_user_name_length'    => 4,
             'max_user_name_length'    => 50,
             'min_password_length'     => 6,
-            'password_with_digit'     => TRUE, // digit required
-            'password_with_lcc'       => TRUE, // lowercase character required
-            'password_with_ucc'       => TRUE, // uppercase character required
-            'password_with_nwc'       => TRUE, // non-word character required
+            'password_with_digit'     => true, // digit required
+            'password_with_lcc'       => true, // lowercase character required
+            'password_with_ucc'       => true, // uppercase character required
+            'password_with_nwc'       => true, // non-word character required
             'allowed_user_name_chars' => str_split('abcdefghijklmnopqrstuvwxyz0123456789-_'),
         ],
 
@@ -48,17 +49,17 @@ return [
             'path'  => __DIR__ . '/../logs/app.log',
             'level' => \Monolog\Logger::DEBUG,
         ],
-        
+
         // Locale settings
         'locale' => [
             'process'      => \App\Utility\LanguageUtility::LOCALE_URL | \App\Utility\LanguageUtility::DOMAIN_DISABLED,
-            'auto_detect'  => TRUE,
+            'auto_detect'  => true,
             'code'         => 'en-US', // default / current language
             'generic_code' => 'xx-XX', // routes which fits all localizations
             'path'         => __DIR__ . '/../locale/',
             'active'       => [], // active locale code domain combinations
         ],
-        
+
         // Doctrine settings
         'doctrine' => [
             'meta' => [
@@ -80,7 +81,7 @@ return [
                 //'unix_socket' => '/Applications/MAMP/tmp/mysql/mysql.sock',
             ],
         ],
-        
+
         // resources for acl
         'acl_resources' => [
             'create_user' => ['guest', 'admin', 'superadmin'],

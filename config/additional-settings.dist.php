@@ -1,14 +1,14 @@
 <?php
 return [
     'settings' => [
-        'displayErrorDetails' => FALSE, // set to false in production
+        'displayErrorDetails' => false, // set to false in production
 
         // Renderer settings
         'renderer' => [
-            'debug' => FALSE,
-            'cache' => FALSE, // FALSE or path to cache folder "__DIR__ . '/../cache/'"
+            'debug' => false,
+            'cache' => false, // false or path to cache folder "__DIR__ . '/../cache/'"
         ],
-        
+
         // Doctrine settings
         'doctrine' => [
             'connection' => [
@@ -20,38 +20,38 @@ return [
                 'unix_socket' => isset($_ENV['APP_DB_SOCKET']) ? $_ENV['APP_DB_SOCKET'] : '',
             ],
         ],
-        
+
         // Google recaptcha
         'recaptcha' => [
             'site'   => '',
             'secret' => '',
         ],
-        
+
         // Google QR Code title
-        '2fa_qrc_title' => null,
-        
+        '2fa_qrc_title' => 'slim_skeleton',
+
         // pages for the public
         'active_pages' => [
-            'login'    => TRUE,
-            'register' => TRUE,
+            'login'    => true,
+            'register' => true,
         ],
-        
+
         // User validation
         'validation' => [
             'min_user_name_length'    => 4,
             'max_user_name_length'    => 50,
             'min_password_length'     => 6,
-            'password_with_digit'     => TRUE, // digit required
-            'password_with_lcc'       => TRUE, // lowercase character required
-            'password_with_ucc'       => TRUE, // uppercase character required
-            'password_with_nwc'       => TRUE, // non-word character required
+            'password_with_digit'     => true, // digit required
+            'password_with_lcc'       => true, // lowercase character required
+            'password_with_ucc'       => true, // uppercase character required
+            'password_with_nwc'       => true, // non-word character required
             'allowed_user_name_chars' => str_split('abcdefghijklmnopqrstuvwxyz0123456789-_'),
         ],
-        
+
         // Locale settings
         'locale' => [
             'process'     => \App\Utility\LanguageUtility::LOCALE_SESSION | \App\Utility\LanguageUtility::DOMAIN_DISABLED,
-            'auto_detect' => TRUE,
+            'auto_detect' => true,
             'code'        => 'en-US', // default / current language
             'active' => [
                 'en-US' => 'imhh-slim.localhost',

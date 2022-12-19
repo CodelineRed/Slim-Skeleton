@@ -5,7 +5,9 @@ volumes:
     logs:
         driver: local
 
+# docker-compose up -d
 services:
+    # docker exec -ti slim-webserver php doctrine orm:schema-tool:update --force
     db:
         image: mysql:5.7
         restart: always
@@ -22,6 +24,7 @@ services:
             - ./sql/db-dump.sql:/docker-entrypoint-initdb.d/db-dump.sql
 
     # http://localhost:7705
+    # docker exec -ti slim-webserver php --version
     webserver:
         #image: php:8.0-alpine
         container_name: slim-webserver
@@ -55,6 +58,7 @@ services:
         ports:
             - 7707:8080
 
+    # docker-compose run composer install --no-dev
     # docker-compose run composer require user/pack
     composer:
         image: composer

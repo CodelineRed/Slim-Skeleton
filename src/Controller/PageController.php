@@ -18,9 +18,9 @@ class PageController extends BaseController {
     public function indexAction($request, $response, $args) {
         // Sample log message
         //$this->logger->info("Slim-Skeleton '/' route");
-        
+
         $users = [];
-        
+
         try {
             $users = $this->em->getRepository('App\Entity\User')->findAll();
         } catch (\Exception $e) {

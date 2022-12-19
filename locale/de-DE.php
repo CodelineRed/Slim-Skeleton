@@ -36,7 +36,7 @@ return [
     'recovery-codes-text' => 'Handhabe die Codes wie Passwörter und speichere diese sicher weg.<br/>Du wirst diese Codes nur dieses eine mal hier sehen.',
     'back-to' => 'Zurück zu%1$s',
     '2fa-enabled' => 'Zwei-Faktor-Auth ist aktiviert',
-    
+
     // navigation labels
     'page-index-label' => 'Startseite',
     'page-example-label' => 'Beispielseite',
@@ -47,7 +47,7 @@ return [
     'user-two-factor-label' => 'Zwei-Faktor-Authentifizierung aktivieren',
     'langswitch-label' => 'DE',
     'langswitch-image' => '<img src="https://cdn.rawgit.com/hjnilsson/country-flags/master/svg/de.svg" style="max-height: 20px;">',
-    
+
     // flash messages
     'register-flash-m1' => 'Benutzername bereits vergeben',
     'register-flash-m2' => 'Benutzername zu kurz (mind. %1$s Zeichen)',
@@ -62,7 +62,7 @@ return [
     'register-flash-m11' => 'Passwort muss mind. einen kleinen Buchstaben haben',
     'register-flash-m12' => 'Passwort muss mind. einen großen Buchstaben haben',
     'register-flash-m13' => 'Passwort muss mind. ein Sonderzeichen haben',
-    
+
     // misc
     // decimal point
     'dp' => ',',

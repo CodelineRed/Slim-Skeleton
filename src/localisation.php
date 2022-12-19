@@ -22,7 +22,7 @@ if (($settings['settings']['locale']['process'] & LanguageUtility::DOMAIN_DISABL
         && ($settings['settings']['locale']['process'] & LanguageUtility::LOCALE_URL) == LanguageUtility::LOCALE_URL) {
     $uri = $_SERVER['SERVER_NAME'];
 
-    if (array_search($uri, $settings['settings']['locale']['active']) === FALSE) {
+    if (array_search($uri, $settings['settings']['locale']['active']) === false) {
         die("Domain '$uri' was not found in \$settings['locale']['active']");
     } else {
         $settings['settings']['locale']['code'] = array_search($uri, $settings['settings']['locale']['active']);
@@ -43,13 +43,13 @@ if (($settings['settings']['locale']['process'] & LanguageUtility::DOMAIN_DISABL
         // get the first 3 chars
         $uri = substr($uri, 0, 3);
     }
-    
+
     switch ($uri) {
         // german
         case 'de/':
             $settings['settings']['locale']['code'] = 'de-DE';
             break;
-            
+
         default:
             $settings['settings']['locale']['code'] = 'en-US';
             break;
