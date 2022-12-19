@@ -2,44 +2,45 @@
 namespace App\MappedSuperclass;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @ORM\MappedSuperclass
  * @ORM\HasLifecycleCallbacks
  */
 class Base {
-    
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
     protected $id;
-    
+
     /**
      * @ORM\Column(type="boolean")
      */
     protected $deleted = 0;
-    
+
     /**
      * @ORM\Column(type="boolean")
      */
     protected $hidden = 0;
-    
+
     /**
      * Date and time in UTC
      * 
      * @ORM\Column(type="datetime", name="updated_at", options={"comment": "Date and time in UTC"})
      */
     protected $updatedAt;
-    
+
     /**
      * Date and time in UTC
      * 
      * @ORM\Column(type="datetime", name="created_at", options={"comment": "Date and time in UTC"})
      */
-    protected $createdAt = NULL;
-    
+    protected $createdAt = null;
+
     /**
      * Get $id
      * 
@@ -48,7 +49,7 @@ class Base {
     public function getId() {
         return $this->id;
     }
-    
+
     /**
      * Is $deleted
      * 
@@ -57,7 +58,7 @@ class Base {
     public function isDeleted() {
         return $this->deleted;
     }
-    
+
     /**
      * Set $deleted
      * 
@@ -66,7 +67,7 @@ class Base {
      */
     public function setDeleted($deleted) {
         $this->deleted = $deleted;
-        
+
         return $this;
     }
 
@@ -78,7 +79,7 @@ class Base {
     public function isHidden() {
         return $this->hidden;
     }
-    
+
     /**
      * Set $hidden
      * 
@@ -87,7 +88,7 @@ class Base {
      */
     public function setHidden($hidden) {
         $this->hidden = $hidden;
-        
+
         return $this;
     }
 
@@ -99,7 +100,7 @@ class Base {
     public function getUpdatedAt() {
         return $this->updatedAt;
     }
-    
+
     /**
      * Set $updatedAt
      * 
@@ -108,7 +109,7 @@ class Base {
      */
     public function setUpdatedAt($updatedAt) {
         $this->updatedAt = $updatedAt;
-        
+
         return $this;
     }
 
@@ -120,7 +121,7 @@ class Base {
     public function getCreatedAt() {
         return $this->createdAt;
     }
-    
+
     /**
      * Set $createdAt
      * 
@@ -129,10 +130,21 @@ class Base {
      */
     public function setCreatedAt($createdAt) {
         $this->createdAt = $createdAt;
-        
+
         return $this;
     }
-    
+
+    /**
+     * Set $id with Ramsey/Uuid
+     * 
+     * @return Base
+     */
+    protected function setIdWithRamsey() {
+        $this->id = Uuid::uuid4();
+
+        return $this;
+    }
+
     /**
      * @ORM\PrePersist
      * @ORM\PreUpdate
@@ -140,11 +152,11 @@ class Base {
     public function updatedTimestamps() {
         $this->setUpdatedAt(new \DateTime('now'));
 
-        if ($this->getCreatedAt() === NULL) {
+        if ($this->getCreatedAt() === null) {
             $this->setCreatedAt(new \DateTime('now'));
         }
     }
-    
+
     /**
      * Get array copy of object
      *

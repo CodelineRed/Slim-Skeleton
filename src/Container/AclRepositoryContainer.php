@@ -7,7 +7,7 @@ use App\Utility\GeneralUtility;
  * Description of AclRepository
  */
 class AclRepositoryContainer {
-    
+
     /**
      * @var \Geggleto\Acl\AclRepository 
      */
@@ -32,13 +32,13 @@ class AclRepositoryContainer {
         $currentRole = GeneralUtility::getCurrentRole();
         GeneralUtility::setCurrentRole($currentRole);
         $roleNames = $allow = $deny = $allResources = [];
-        
+
         try {
             $roles = $em->getRepository('App\Entity\Role')->findAll();
         } catch (\Exception $e) {
             // failed to connect
         }
-        
+
         // if is array and not empty
         if (isset($roles) && is_array($roles) && !empty($roles)) {
             // loop through roles
@@ -51,7 +51,7 @@ class AclRepositoryContainer {
                     // if translation file exists, load file to $locale
                     if (is_readable($settings['config_path'] . 'routes/' . $activeLocale . '.php')) {
                         $routes = require $settings['config_path'] . 'routes/' . $activeLocale . '.php';
-                        
+
                         if (isset($routes) && is_array($routes)) {
                             foreach ($routes as $routeName => $route) {
                                 // if route not in array
@@ -72,14 +72,14 @@ class AclRepositoryContainer {
                         }
                     }
                 }
-                
+
                 if (isset($settings['acl_resources']) && is_array($settings['acl_resources'])) {
                     foreach ($settings['acl_resources'] as $aclResource => $aclRoles) {
                         // if is first role - add all resources
                         if ($roleKey === 0) {
                             $allResources[] = $aclResource;
                         }
-                        
+
                         // if current role is in $aclRoles
                         if (in_array($roleName, $aclRoles)) {
                             $allow[$roleName][] = $aclResource;

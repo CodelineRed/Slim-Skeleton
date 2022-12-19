@@ -36,7 +36,7 @@ return [
     'recovery-codes-text' => 'Treat this codes like passwords and save them.<br/>You will see them only this time.',
     'back-to' => 'Back to',
     '2fa-enabled' => 'Two factor auth is enabled',
-    
+
     // navigation labels
     'page-index-label' => 'Home',
     'page-example-label' => 'Example page',
@@ -47,7 +47,7 @@ return [
     'user-two-factor-label' => 'Enable two factor authentication',
     'langswitch-label' => 'EN',
     'langswitch-image' => '<img src="https://cdn.rawgit.com/hjnilsson/country-flags/master/svg/us.svg" style="max-height: 20px;">',
-    
+
     // flash messages
     'register-flash-m1' => 'User name is taken',
     'register-flash-m2' => 'User name too short (at least %1$s characters)',
@@ -62,7 +62,7 @@ return [
     'register-flash-m11' => 'Password must include at least one lowercase letter',
     'register-flash-m12' => 'Password must include at least one uppercase letter',
     'register-flash-m13' => 'Password must include at least one symbol',
-    
+
     // misc
     // decimal point
     'dp' => '.',

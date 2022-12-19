@@ -5,7 +5,7 @@ use Composer\Script\Event;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
 class Setup {
-    
+
     /**
      * Generates additional-settings.php and set up database
      * 
@@ -17,36 +17,36 @@ class Setup {
             echo self::getColoredString("Skipped App\\Composer\\Setup in Docker environment.\n", 'green');
             return;
         }
-        
+
         $arrConfig = [];
         $s = '    ';
 
         // if additional-settings.php not exists
         if (!file_exists(__DIR__ . "/../../config/additional-settings.php")) {
-            
+
             if (!file_exists(__DIR__ . "/../../config/additional-settings.dist.php")) {
                 copy(__DIR__ . "/../../config/additional-settings.dist.php", __DIR__ . "/../../config/additional-settings.php");
             }
 
             // Error setting
-            echo self::getColoredString("Setup Error Details\n", 'yellow', NULL, ['underscore']);
+            echo self::getColoredString("Setup Error Details\n", 'yellow', null, ['underscore']);
             // Ask for database name
-            echo self::getColoredString("Please enter value for displayErrorDetails (default: ", 'green') . self::getColoredString("TRUE", 'yellow') . self::getColoredString("): ", 'green');
+            echo self::getColoredString("Please enter value for displayErrorDetails (default: ", 'green') . self::getColoredString("true", 'yellow') . self::getColoredString("): ", 'green');
             $strHandle = fopen("php://stdin", "r");
             echo "\n";
 
             $strDisplayErrors = trim(fgets($strHandle));
 
-            if (empty($strDisplayErrors) || $strDisplayErrors !== "FALSE") {
-                $arrConfig['displayErrorDetails'] = "TRUE";
+            if (empty($strDisplayErrors) || $strDisplayErrors !== "false") {
+                $arrConfig['displayErrorDetails'] = "true";
             } else {
                 $arrConfig['displayErrorDetails'] = $strDisplayErrors;
             }
-            
+
             fclose($strHandle);
 
             // Database setting
-            echo self::getColoredString("\nSetup Database\n", 'yellow', NULL, ['underscore']);
+            echo self::getColoredString("\nSetup Database\n", 'yellow', null, ['underscore']);
 
             // Ask for database name
             echo self::getColoredString("Please enter database name (default: ", 'green') . self::getColoredString("slim_skeleton", 'yellow') . self::getColoredString("): ", 'green');
@@ -131,15 +131,15 @@ class Setup {
             } else {
                 $arrConfig['database']['unix_socket'] = $strUnixSocket;
             }
-            
+
             $mysql = new \PDO('mysql:host=' . $arrConfig['database']['host'] . ';port=' . $arrConfig['database']['port'] . ';unix_socket=' . $arrConfig['database']['unix_socket'], $arrConfig['database']['user'], $arrConfig['database']['password']);
 
             if ($mysql->errorCode()) {
                 echo self::getColoredString("\nConnection failed:\n" . $mysql->errorInfo() . "\n", 'red');
             }
-            
+
             // reCAPTCHA setting
-            echo self::getColoredString("\nSetup Google reCAPTCHA\n", 'yellow', NULL, ['underscore']);
+            echo self::getColoredString("\nSetup Google reCAPTCHA\n", 'yellow', null, ['underscore']);
 
             // Ask for reCAPTCHA website key
             echo self::getColoredString("Please enter reCAPTCHA website key (default: ", 'green') . self::getColoredString("empty string", 'yellow') . self::getColoredString("): ", 'green');
@@ -157,11 +157,11 @@ class Setup {
             $arrConfig['recaptcha']['secret'] = trim(fgets($strHandle));
             fclose($strHandle);
 
-            echo self::getColoredString("\nSetup Google QR Code title\n", 'yellow', NULL, ['underscore']);
+            echo self::getColoredString("\nSetup Google QR Code title\n", 'yellow', null, ['underscore']);
             # Google QR Code setting
 
             // Ask for database password
-            echo self::getColoredString("Please enter the title  (default: ", 'green') . self::getColoredString("NULL", 'yellow') . self::getColoredString("): ", 'green');
+            echo self::getColoredString("Please enter the title  (default: ", 'green') . self::getColoredString("null", 'yellow') . self::getColoredString("): ", 'green');
             $strHandle = fopen("php://stdin", "r");
             echo "\n";
 
@@ -169,13 +169,13 @@ class Setup {
             fclose($strHandle);
 
             if (empty($str2faQrcTitle)) {
-                $arrConfig['2fa_qrc_title'] = "NULL";
+                $arrConfig['2fa_qrc_title'] = "null";
             } else {
                 $arrConfig['2fa_qrc_title'] = $str2faQrcTitle;
             }
 
             // Locale settings
-            echo self::getColoredString("\nSetup Locale Settings\n", 'yellow', NULL, ['underscore']);
+            echo self::getColoredString("\nSetup Locale Settings\n", 'yellow', null, ['underscore']);
 
             // Ask for locale process
             echo self::getColoredString("Please enter number of locale process (default: ", 'green') . self::getColoredString("3", 'yellow') . self::getColoredString(")", 'green');
@@ -193,7 +193,7 @@ class Setup {
 
             $strLocaleProcess = (int)trim(fgets($strHandle));
             fclose($strHandle);
-            
+
             switch ($strLocaleProcess) {
                 case 1:
                     $arrConfig['locale']['process'] = "\App\Utility\LanguageUtility::LOCALE_URL | \App\Utility\LanguageUtility::DOMAIN_DISABLED";
@@ -216,35 +216,35 @@ class Setup {
             }
 
             // Ask for auto detection
-            echo self::getColoredString("Please enter value for language auto detection (default: ", 'green') . self::getColoredString("TRUE", 'yellow') . self::getColoredString("): ", 'green');
+            echo self::getColoredString("Please enter value for language auto detection (default: ", 'green') . self::getColoredString("true", 'yellow') . self::getColoredString("): ", 'green');
             $strHandle = fopen("php://stdin", "r");
             echo "\n";
 
             $strLocaleAuto = trim(fgets($strHandle));
             fclose($strHandle);
 
-            if (empty($strLocaleAuto) || $strLocaleAuto !== "FALSE") {
-                $arrConfig['locale']['auto_detect'] = "TRUE";
+            if (empty($strLocaleAuto) || $strLocaleAuto !== "false") {
+                $arrConfig['locale']['auto_detect'] = "true";
             } else {
                 $arrConfig['locale']['auto_detect'] = $strLocaleAuto;
             }
-            
+
             // Ask for locale code domain combination
             echo self::getColoredString("Please enter locale domains\n", 'green');
             echo self::getColoredString("First locale code domain combination will be the default language\n", 'green');
             echo self::getColoredString("To exit the loop press enter at 'Locale code'\n", 'green');
             echo self::getColoredString("Enter 'default' (default = de-DE and en-US) at anytime to use default settings (recommended)\n", 'green');
-            
+
             do {
                 echo self::getColoredString("Locale code (e.g. en-US): ", 'green');
                 $strHandle = fopen("php://stdin", "r");
                 $strLocaleCode = trim(fgets($strHandle));
                 fclose($strHandle);
-                
+
                 if (empty($strLocaleCode)) {
                     break;
                 }
-                
+
                 if ($strLocaleCode !== 'default') {
                     echo self::getColoredString("Domain: ", 'green');
                     $strHandle = fopen("php://stdin", "r");
@@ -256,34 +256,34 @@ class Setup {
                         break;
                     }
                 }
-                
+
                 if ($strLocaleCode === 'default' || $strLocaleDomain === 'default') {
                     unset($arrConfig['locale']['code']);
                     unset($arrConfig['locale']['active']);
-                    
+
                     $arrConfig['locale']['code'] = 'en-US';
                     $arrConfig['locale']['active']['en-US'] = 'imhh-slim.localhost';
                     $arrConfig['locale']['active']['de-DE'] = 'imhh-slim.localhost';
-                    
+
                     break;
                 }
-                
+
                 $arrConfig['locale']['active'][$strLocaleCode] = $strLocaleDomain;
-                
+
                 // if is first entry
                 if (count($arrConfig['locale']['active']) === 1) {
                     $arrConfig['locale']['code'] = $strLocaleCode;
                 }
-            } while (TRUE);
-            
+            } while (true);
+
             if (!isset($arrConfig['locale']['active'])) {
                 echo self::getColoredString("You need at least one local code domain combination!", 'white', 'red');
                 die("\n");
             }
-            
+
             // User Validation setting
-            echo self::getColoredString("\nSetup User Validation\n", 'yellow', NULL, ['underscore']);
-            
+            echo self::getColoredString("\nSetup User Validation\n", 'yellow', null, ['underscore']);
+
             // Ask for min_user_name_length
             echo self::getColoredString("Please enter minimum length for user name (default: ", 'green') . self::getColoredString("4", 'yellow') . self::getColoredString("): ", 'green');
             $strHandle = fopen("php://stdin", "r");
@@ -297,7 +297,7 @@ class Setup {
             } else {
                 $arrConfig['validation']['min_user_name_length'] = $strMinUserLength;
             }
-            
+
             // Ask for max_user_name_length
             echo self::getColoredString("Please enter maximum length for user name (default: ", 'green') . self::getColoredString("50", 'yellow') . self::getColoredString("): ", 'green');
             $strHandle = fopen("php://stdin", "r");
@@ -311,7 +311,7 @@ class Setup {
             } else {
                 $arrConfig['validation']['max_user_name_length'] = $strMaxUserLength;
             }
-            
+
             // Ask for min_user_name_length
             echo self::getColoredString("Please enter minimum length for password (default: ", 'green') . self::getColoredString("6", 'yellow') . self::getColoredString("): ", 'green');
             $strHandle = fopen("php://stdin", "r");
@@ -325,63 +325,63 @@ class Setup {
             } else {
                 $arrConfig['validation']['min_password_length'] = $strMinPassLength;
             }
-            
+
             // Ask for password_with_digit
-            echo self::getColoredString("Are digits required for passwords? (default: ", 'green') . self::getColoredString("TRUE", 'yellow') . self::getColoredString("): ", 'green');
+            echo self::getColoredString("Are digits required for passwords? (default: ", 'green') . self::getColoredString("true", 'yellow') . self::getColoredString("): ", 'green');
             $strHandle = fopen("php://stdin", "r");
             echo "\n";
 
             $strPasswordWithDigit = trim(fgets($strHandle));
             fclose($strHandle);
 
-            if (empty($strPasswordWithDigit) || $strPasswordWithDigit !== "FALSE") {
-                $arrConfig['validation']['password_with_digit'] = "TRUE";
+            if (empty($strPasswordWithDigit) || $strPasswordWithDigit !== "false") {
+                $arrConfig['validation']['password_with_digit'] = "true";
             } else {
                 $arrConfig['validation']['password_with_digit'] = $strPasswordWithDigit;
             }
-            
+
             // Ask for password_with_lcc
-            echo self::getColoredString("Are lowercase characters required for passwords? (default: ", 'green') . self::getColoredString("TRUE", 'yellow') . self::getColoredString("): ", 'green');
+            echo self::getColoredString("Are lowercase characters required for passwords? (default: ", 'green') . self::getColoredString("true", 'yellow') . self::getColoredString("): ", 'green');
             $strHandle = fopen("php://stdin", "r");
             echo "\n";
 
             $strPasswordWithLcc = trim(fgets($strHandle));
             fclose($strHandle);
 
-            if (empty($strPasswordWithLcc) || $strPasswordWithLcc !== "FALSE") {
-                $arrConfig['validation']['password_with_lcc'] = "TRUE";
+            if (empty($strPasswordWithLcc) || $strPasswordWithLcc !== "false") {
+                $arrConfig['validation']['password_with_lcc'] = "true";
             } else {
                 $arrConfig['validation']['password_with_lcc'] = $strPasswordWithLcc;
             }
-            
+
             // Ask for password_with_ucc
-            echo self::getColoredString("Are uppercase characters required for passwords? (default: ", 'green') . self::getColoredString("TRUE", 'yellow') . self::getColoredString("): ", 'green');
+            echo self::getColoredString("Are uppercase characters required for passwords? (default: ", 'green') . self::getColoredString("true", 'yellow') . self::getColoredString("): ", 'green');
             $strHandle = fopen("php://stdin", "r");
             echo "\n";
 
             $strPasswordWithUcc = trim(fgets($strHandle));
             fclose($strHandle);
 
-            if (empty($strPasswordWithUcc) || $strPasswordWithUcc !== "FALSE") {
-                $arrConfig['validation']['password_with_ucc'] = "TRUE";
+            if (empty($strPasswordWithUcc) || $strPasswordWithUcc !== "false") {
+                $arrConfig['validation']['password_with_ucc'] = "true";
             } else {
                 $arrConfig['validation']['password_with_ucc'] = $strPasswordWithUcc;
             }
-            
+
             // Ask for password_with_nwc
-            echo self::getColoredString("Are special / non-word characters required for passwords? (default: ", 'green') . self::getColoredString("TRUE", 'yellow') . self::getColoredString("): ", 'green');
+            echo self::getColoredString("Are special / non-word characters required for passwords? (default: ", 'green') . self::getColoredString("true", 'yellow') . self::getColoredString("): ", 'green');
             $strHandle = fopen("php://stdin", "r");
             echo "\n";
 
             $strPasswordWithNwc = trim(fgets($strHandle));
             fclose($strHandle);
 
-            if (empty($strPasswordWithNwc) || $strPasswordWithNwc !== "FALSE") {
-                $arrConfig['validation']['password_with_nwc'] = "TRUE";
+            if (empty($strPasswordWithNwc) || $strPasswordWithNwc !== "false") {
+                $arrConfig['validation']['password_with_nwc'] = "true";
             } else {
                 $arrConfig['validation']['password_with_nwc'] = $strPasswordWithNwc;
             }
-            
+
             // Ask for allowed_user_name_chars
             echo self::getColoredString("Please enter allowed characters for user name (default: ", 'green') . self::getColoredString("abcdefghijklmnopqrstuvwxyz0123456789-_", 'yellow') . self::getColoredString("): ", 'green');
             $strHandle = fopen("php://stdin", "r");
@@ -397,8 +397,8 @@ class Setup {
             }
 
             // Public path
-            echo self::getColoredString("\nSetup Public Path\n", 'yellow', NULL, ['underscore']);
-            
+            echo self::getColoredString("\nSetup Public Path\n", 'yellow', null, ['underscore']);
+
             // Ask for public path
             echo self::getColoredString("Please enter public path (default: ", 'green') . self::getColoredString("dynamic generated", 'yellow') . self::getColoredString("): ", 'green');
             $strHandle = fopen("php://stdin", "r");
@@ -412,7 +412,7 @@ class Setup {
             } else {
                 $arrConfig['public_path'] = "'$strPublicPath'";
             }
-            
+
             $stringConfig = "<?php\n";
             $stringConfig .= "return [\n";
             $stringConfig .= "$s'settings' => [\n";
@@ -490,7 +490,7 @@ class Setup {
             }
         }
     }
-    
+
     /**
      * @param array $configuration
      */
@@ -501,18 +501,18 @@ class Setup {
             echo self::getColoredString("\nConnection failed:\n", 'red');
             print_r($mysql->errorInfo());
         }
-        
+
         $sql = "SELECT COUNT(*) AS `exists` FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMATA.SCHEMA_NAME = '". $configuration['dbname'] . "';";
         $query = $mysql->query($sql);
-        
-        if ($query === FALSE) {
+
+        if ($query === false) {
             echo self::getColoredString("\nError searching for database:\n", 'red');
             print_r($mysql->errorInfo());
             return;
         }
-        
+
         $row = $query->fetch();
-        
+
         // if database exists
         if (isset($row['exists']) && $row['exists'] === '1') {
             echo self::getColoredString("\nDatabase already exists\n", 'yellow');
@@ -521,8 +521,8 @@ class Setup {
         }
 
         $sql = "CREATE DATABASE IF NOT EXISTS `". $configuration['dbname'] . "` CHARACTER SET utf8 COLLATE utf8_general_ci;";
-        
-        if ($mysql->query($sql) === FALSE) {
+
+        if ($mysql->query($sql) === false) {
             echo self::getColoredString("\nError creating database:\n", 'red');
             print_r($mysql->errorInfo());
             return;
@@ -532,7 +532,7 @@ class Setup {
 
         static::importDatabase($configuration);
     }
-    
+
     /**
      * @param array $configuration
      */
@@ -568,7 +568,7 @@ class Setup {
 
         echo self::getColoredString("\nDatabase reset successfully\n", 'green');
     }
-    
+
     /**
      * Returns colored text for CLI
      * 
@@ -578,12 +578,12 @@ class Setup {
      * @param array $options
      * @return string
      */
-    protected static function getColoredString($text, $foreground = NULL, $background = NULL, array $options = []) {
+    protected static function getColoredString($text, $foreground = null, $background = null, array $options = []) {
         // skip colors on windows operating system
-        if (strpos(strtolower(php_uname()), 'windows') !== FALSE) {
+        if (strpos(strtolower(php_uname()), 'windows') !== false) {
             return $text;
         }
-        
+
         $output = new OutputFormatterStyle($foreground, $background, $options);
         return $output->apply($text);
     }

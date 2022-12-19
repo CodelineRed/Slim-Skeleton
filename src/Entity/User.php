@@ -11,39 +11,39 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="user")
  */
 class User extends Base {
-    
+
     /**
      * @ORM\Column(type="string", unique=true)
      */
     protected $name;
-    
+
     /**
      * Encoded password
      * 
      * @ORM\Column(type="string", options={"comment": "Encoded password"})
      */
     private $pass;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Role", inversedBy="users")
      * @ORM\JoinColumn(name="role_id", referencedColumnName="id", nullable=false)
      */
     private $role;
-    
+
     /**
      * 1 if 2FA is enabled
      * 
      * @ORM\Column(type="boolean", name="two_factor", options={"comment": "1 if 2FA is enabled"})
      */
-    private $twoFactor = FALSE;
-    
+    private $twoFactor = false;
+
     /**
      * Secret for 2FA validation and authenticator app
      * 
      * @ORM\Column(type="string", name="two_factor_secret", options={"comment": "Secret for 2FA validation and authenticator app"})
      */
     private $twoFactorSecret = '';
-    
+
     /**
      * One User has many RecoveryCodes.
      * 
@@ -63,7 +63,7 @@ class User extends Base {
     public function getName() {
         return $this->name;
     }
-    
+
     /**
      * Set $name
      * 
@@ -72,7 +72,7 @@ class User extends Base {
      */
     public function setName($name) {
         $this->name = strtolower($name);
-        
+
         return $this;
     }
 
@@ -84,7 +84,7 @@ class User extends Base {
     public function getPass() {
         return $this->pass;
     }
-    
+
     /**
      * Set $pass
      * 
@@ -93,10 +93,10 @@ class User extends Base {
      */
     public function setPass($pass) {
         $this->pass = GeneralUtility::encryptPassword($pass);
-        
+
         return $this;
     }
-    
+
     /**
      * Get $role
      * 
@@ -105,7 +105,7 @@ class User extends Base {
     public function getRole() {
         return $this->role;
     }
-    
+
     /**
      * Set $role
      * 
@@ -114,10 +114,10 @@ class User extends Base {
      */
     public function setRole($role) {
         $this->role = $role;
-        
+
         return $this;
     }
-    
+
     /**
      * Set $twoFactor
      * 
@@ -126,10 +126,10 @@ class User extends Base {
      */
     public function setTwoFactor($twoFactor) {
         $this->twoFactor = $twoFactor;
-        
+
         return $this;
     }
-    
+
     /**
      * Has $twoFactor
      * 
@@ -147,7 +147,7 @@ class User extends Base {
     public function getTwoFactorSecret() {
         return $this->twoFactorSecret;
     }
-    
+
     /**
      * Set $twoFactorSecret
      * 
@@ -156,7 +156,7 @@ class User extends Base {
      */
     public function setTwoFactorSecret($twoFactorSecret) {
         $this->twoFactorSecret = $twoFactorSecret;
-        
+
         return $this;
     }
 

@@ -3,39 +3,38 @@ namespace App\Entity;
 
 use App\MappedSuperclass\Base;
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\Uuid;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="recovery_code")
  */
 class RecoveryCode extends Base {
-    
+
     /**
      * @ORM\Id
      * @ORM\Column(type="string")
      */
     protected $id;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="recoveryCodes")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     private $user;
-    
+
     /**
      * Encoded recovery code
      * 
      * @ORM\Column(type="string", options={"comment": "Encoded recovery code"})
      */
     private $code;
-    
+
     public function __construct() {
         if (!isset($this->id)) {
             $this->setIdWithRamsey();
         }
     }
-    
+
     /**
      * Set $id
      * 
@@ -44,10 +43,10 @@ class RecoveryCode extends Base {
      */
     private function setId($id) {
         $this->id = $id;
-        
+
         return $this;
     }
-    
+
     /**
      * Get $user
      * 
@@ -56,7 +55,7 @@ class RecoveryCode extends Base {
     public function getUser() {
         return $this->user;
     }
-    
+
     /**
      * Set $user
      * 
@@ -65,7 +64,7 @@ class RecoveryCode extends Base {
      */
     public function setUser($user) {
         $this->user = $user;
-        
+
         return $this;
     }
 
@@ -77,7 +76,7 @@ class RecoveryCode extends Base {
     public function getCode() {
         return $this->code;
     }
-    
+
     /**
      * Set $code
      * 
@@ -86,18 +85,7 @@ class RecoveryCode extends Base {
      */
     public function setCode($code) {
         $this->code = $code;
-        
-        return $this;
-    }
-    
-    /**
-     * Set $id with Ramsey/Uuid
-     * 
-     * @return RecoveryCode
-     */
-    private function setIdWithRamsey() {
-        $this->id = Uuid::uuid4();
-        
+
         return $this;
     }
 }

@@ -10,12 +10,12 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="role")
  */
 class Role extends Base {
-    
+
     /**
      * @ORM\Column(type="string", unique=true)
      */
     protected $name;
-    
+
     /**
      * One Role has many Users.
      * 
@@ -35,7 +35,7 @@ class Role extends Base {
     public function getName() {
         return $this->name;
     }
-    
+
     /**
      * Set $name
      * 
@@ -44,7 +44,7 @@ class Role extends Base {
      */
     public function setName($name) {
         $this->name = strtolower($name);
-        
+
         return $this;
     }
 

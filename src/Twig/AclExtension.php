@@ -8,7 +8,7 @@ use App\Utility\GeneralUtility;
  * ACL twig extension
  */
 class AclExtension extends \Twig_Extension {
-    
+
     /** @var \Slim\Container $container */
     private $container;
 
@@ -33,7 +33,7 @@ class AclExtension extends \Twig_Extension {
             new \Twig_SimpleFunction('has_role', [$this, 'hasRole']),
         ];
     }
-    
+
     /**
      * Checks if given role is current role
      * 
@@ -42,16 +42,16 @@ class AclExtension extends \Twig_Extension {
      */
     public function hasRole($role) {
         if (is_string($role) && isset($_SESSION['currentRole']) && $_SESSION['currentRole'] === $role) {
-            return TRUE;
+            return true;
         }
-        
+
         if (is_array($role) && isset($_SESSION['currentRole']) && in_array($_SESSION['currentRole'], $role)) {
-            return TRUE;
+            return true;
         }
-        
-        return FALSE;
+
+        return false;
     }
-    
+
     /**
      * Checks if given resource is allowed by current role
      * 
@@ -60,16 +60,16 @@ class AclExtension extends \Twig_Extension {
      */
     public function isAllowed($resource) {
         $acl = AclRepositoryContainer::getInstance();
-        
+
         if (is_string($resource) && isset($_SESSION['currentRole']) && $acl->isAllowed($_SESSION['currentRole'], $resource)) {
-            return TRUE;
+            return true;
         }
-        
-        return FALSE;
+
+        return false;
     }
-    
+
     /**
-     * Returns current user id or NULL if user not logged in.
+     * Returns current user id or null if user not logged in.
      * Sample: {{ current_user() }}
      * 
      * @return mixed
@@ -77,7 +77,7 @@ class AclExtension extends \Twig_Extension {
     public function currentUser() {
         return GeneralUtility::getCurrentUser();
     }
-    
+
     /**
      * Returns current role or 'guest' if user not logged in.
      * Sample: {{ current_role() }}

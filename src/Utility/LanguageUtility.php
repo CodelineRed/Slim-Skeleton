@@ -4,7 +4,7 @@ namespace App\Utility;
 use App\Container\AppContainer;
 
 class LanguageUtility {
-    
+
     const LOCALE_URL = 1;
     const LOCALE_SESSION = 2;
     const DOMAIN_ENABLED = 4;
@@ -20,7 +20,7 @@ class LanguageUtility {
      */
     static function trans($key, $vars = []) {
         $settings = AppContainer::getInstance()->getContainer()->get('settings');
-        
+
         // if translation file exists, load file to $locale
         if (is_readable($settings['locale']['path'] . $settings['locale']['code'] . '.php')) {
             $locale = require $settings['locale']['path'] . $settings['locale']['code'] . '.php';
@@ -28,30 +28,29 @@ class LanguageUtility {
             // return translation key
             return $key;
         }
-        
+
         // if translation exists, return translation
         if (isset($locale[$key])) {
-            
+
             // $vars not empty and bigger than 0
             if (!empty($vars) && count($vars) > 0) {
                 // replace placeholders in translation with $vars and return to frontend
                 return vsprintf($locale[$key], $vars);
             }
-            
+
             // return matching translation
             return $locale[$key];
         }
-        
+
         // given key is not matching
         return $key;
     }
-    
+
     /**
      * Detects browser language and redirects to browser language related page
      * 
      * @param string $routeName
      * @param array $routeArgs
-     * @return type
      */
     static function languageDetection($routeName, $routeArgs) {
         $app = AppContainer::getInstance();
@@ -61,7 +60,7 @@ class LanguageUtility {
         if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) 
                 && is_string($_SERVER['HTTP_ACCEPT_LANGUAGE']) 
                 && isset($settings['locale']['auto_detect'])
-                && $settings['locale']['auto_detect'] === TRUE) {
+                && $settings['locale']['auto_detect'] === true) {
             $browserLocales = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
             $localeQuality = [];
 
@@ -92,7 +91,7 @@ class LanguageUtility {
                     $locale = $localeQuality[0]['locale'];
 
                     // locale has no '-' sign
-                    if (strpos($locale, '-') === FALSE) {
+                    if (strpos($locale, '-') === false) {
                         // add sign and region
                         $locale .= '-' . strtoupper($locale);
                     }
@@ -105,18 +104,18 @@ class LanguageUtility {
                             setcookie('current_locale', $activeLocale, 0, '/');
                             $activeLocale = $settings['locale']['generic_code'];
                         }
-                        
+
                         $currentRouteName = substr($routeName, 0, -6);
                         $suffixName = strtolower($activeLocale);
                         $newRouteName = substr($routeName, 0, -6) . '-' . $suffixName;
                         $routes = require $settings['config_path'] . 'routes/' . $activeLocale . '.php';
-                
+
                         if (self::processHas(self::DOMAIN_ENABLED) && !isset($routes[$currentRouteName])) {
                             $newRouteName = substr($routeName, 0, -6) . '-' . strtolower($settings['locale']['generic_code']);
                         }
-                        
+
                         $compiledRoute = $app->getContainer()->get('router')->pathFor($newRouteName, $routeArgs);
-                        
+
                         if (self::processHas(self::DOMAIN_ENABLED)) {
                             $compiledRoute = $_SERVER['REQUEST_SCHEME'] . '://' . $domain . $compiledRoute;
                         }
@@ -136,7 +135,7 @@ class LanguageUtility {
     /**
      * @param array $a
      * @param array $b
-     * @return boolean
+     * @return integer|boolean
      */
     static function localeQualityAsc($a, $b) {
         if ($b['quality'] === $a['quality']) {
@@ -144,9 +143,9 @@ class LanguageUtility {
         }
         return $b['quality'] > $a['quality'] ? 1 : -1;
     }
-    
+
     /**
-     * Returns TRUE if process has $flag
+     * Returns true if process has $flag
      * 
      * @param integer $flag
      * @return boolean
@@ -155,7 +154,7 @@ class LanguageUtility {
         $settings = AppContainer::getInstance()->getContainer()->get('settings');
         return (($settings['locale']['process'] & $flag) == $flag);
     }
-    
+
     /**
      * Returns the current locale code
      * 
@@ -165,7 +164,7 @@ class LanguageUtility {
         $settings = AppContainer::getInstance()->getContainer()->get('settings');
         return $settings['locale']['code'];
     }
-    
+
     /**
      * Get current language-region combination
      * 
@@ -179,7 +178,7 @@ class LanguageUtility {
             return strtolower($settings['locale']['code']);
         }
     }
-    
+
     /**
      * Get generic language code
      * 
